@@ -35,6 +35,7 @@ class MainActivity : ComponentActivity() {
 
 
 
+
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Column {
@@ -42,7 +43,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         text = "Hello $name!",
         modifier = modifier
     )
-        var count = 0
+        val count = 0
         Text(text = count.toString(),
             fontSize = 50.sp)
 
