@@ -1,5 +1,7 @@
 package com.example.s1121119
 
+import android.app.Activity
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
@@ -28,11 +31,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             S1121119Theme {
-                Scaffold(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color(0xff95fe95))
-                ) { innerPadding ->
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                     GameScreen(
                         modifier = Modifier.padding(innerPadding)
                     )
@@ -41,14 +41,13 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 @Composable
 fun GameScreen(modifier: Modifier = Modifier) {
     val gameTime = remember { mutableStateOf(0) }
     val score = remember { mutableStateOf(0) }
+    val activity = (LocalContext.current as? Activity)
 
-    val onEndButtonClick = {
-
-    }
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -57,21 +56,26 @@ fun GameScreen(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center
     ) {
 
+
+
         Text(
             text = "2024期末上機考(資管二A劉伊宸)",
             fontSize = 18.sp,
             color = Color.Black
         )
+
         Image(
             painter = painterResource(id = R.drawable.class_a),
             contentDescription = "class_a",
             modifier = Modifier.padding(vertical = 16.dp)
         )
+
         Text(
             text = "遊戲持續時間: ${gameTime.value} 秒",
             fontSize = 20.sp,
             color = Color.Black
         )
+
         Text(
             text = "您的成績: ${score.value} 分",
             fontSize = 20.sp,
@@ -79,10 +83,12 @@ fun GameScreen(modifier: Modifier = Modifier) {
         )
 
         Button(
-            onClick = onEndButtonClick,
-            modifier = Modifier.padding(top = 32.dp)
+            onClick = {
+                activity?.finish()
+            }
         ) {
             Text(text = "結束App")
+
         }
     }
 }
